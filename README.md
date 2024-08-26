@@ -1,12 +1,24 @@
+**Run virtual environment**
+
+`python3 -m venv .venv`
+
 **Require package**
 
 - flask
 - flask-wtf
 - email_validator
 - flask-sqlalchemy
-- Flask-Blogging
-
+- flask-bcrypt
+- flask-login
 
 **Run**
 
-`flask --app {filename} run --debug`
+`flask --app {project_name} run --debug`
+
+**Manually set up context**
+
+```
+>>> from {project_name} import app, db
+>>> app.app_context().push()
+>>> db.create_all()
+```
