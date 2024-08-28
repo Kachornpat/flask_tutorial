@@ -10,6 +10,7 @@
 - flask-sqlalchemy
 - flask-bcrypt
 - flask-login
+- pillow
 
 **Run**
 
