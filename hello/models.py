@@ -1,5 +1,7 @@
 from datetime import datetime
+from itsdangerous import TimestampSigner
 from hello import db, login_manager
+from flask import current_app
 from flask_login import UserMixin
 
 @login_manager.user_loader
@@ -13,6 +15,19 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
+
+    def get_reset_token(self):
+        s = TimestampSigner(current_app.config['SECRET_KEY'])
+        return s.sign("{'user_id': 1}")
+     
+    @staticmethod
+    def verify_reset_token(token, expired_sec=1800):
+        s = TimestampSigner(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.unsign(token, max_age=expired_sec)['user_id']
+        except:
+            return None
+        return User.query.get_or_404(user_id)
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"

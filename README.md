@@ -11,6 +11,7 @@
 - flask-bcrypt
 - flask-login
 - pillow
+- flask-mail
 
 **Run**
 
